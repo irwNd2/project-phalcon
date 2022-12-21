@@ -20,5 +20,17 @@ export const usePatientStore = defineStore("patient", {
         console.log(error);
       }
     },
+
+    async getPatientDetail(id) {
+        try {
+            const { data } = await axios({
+            method: "GET",
+            url: this.baseUrl + id,
+            });
+            this.patient = data.result;
+        } catch (error) {
+            console.log(error);
+        }
+        },
   },
 });
