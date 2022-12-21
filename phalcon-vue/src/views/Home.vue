@@ -1,4 +1,21 @@
 <script>
+import { mapState, mapActions } from 'pinia';
+import { usePatientStore } from '../stores/patient';
+
+export default {
+    created() {
+        this.getPatients();
+    },
+
+    computed: {
+        ...mapState(usePatientStore, ['patients']),
+    },
+
+    methods: {
+        ...mapActions(usePatientStore, ['getPatients']),
+    },
+}
+
 </script>
 
 <template>
