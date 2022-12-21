@@ -10,11 +10,15 @@ export const usePatientStore = defineStore("patient", {
   }),
   actions: {
     async getPatients() {
-      const { data } = await axios({
-        method: "GET",
-        url: this.baseUrl,
-      })
-      this.patients = data.result;
+      try {
+        const { data } = await axios({
+          method: "GET",
+          url: this.baseUrl,
+        });
+        this.patients = data.result;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 });
