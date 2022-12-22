@@ -1,16 +1,17 @@
 <script>
+import { mapActions } from 'pinia';
+import { usePatientStore } from '../stores/patient';
 export default {
     props: ['patient'],
     methods: {
+        ...mapActions(usePatientStore, ['deletePatient']),
         detail(id) {
             this.$router.push({ name: 'detail', params: { id } });
         },
         update(id) {
-            console.log('update', id);
+            this.$router.push({ name: 'update', params: { id } });
         },
-        deletePatient(id) {
-            console.log('delete', id);
-        }
+        
     }
 }
 

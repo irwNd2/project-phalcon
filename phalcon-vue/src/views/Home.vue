@@ -12,6 +12,11 @@ export default {
     },
     methods: {
         ...mapActions(usePatientStore, ["getPatients"]),
+        
+        addPatient() {
+            this.$router.push({ path: '/add' });
+        },
+
     },
     components: { PatientTableRow }
 }
@@ -26,6 +31,7 @@ export default {
         </div>
         <div class="px-4 py-4">
             <h3 class="text-xl font-bold">Table List of Patient</h3>
+            <button @click.prevent="addPatient()" class="inline-block px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Add Patient</button>
         </div>
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200 text-sm">
