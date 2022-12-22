@@ -26,14 +26,26 @@ $di->set(
             [
                 'host'     => 'localhost',
                 'username' => 'root',
-                'password' => 'root',
-                'dbname'   => 'phalcon-practice',
+                'password' => 'mariadb',
+                'dbname'   => 'mariadbtest',
             ]
         );
     }
 );
 
 $app = new Micro($di);
+
+$app->options('/{catch:(.*)}', function() use ($app) { 
+    $app->response->setHeader('Access-Control-Allow-Origin', '*');
+    $app->response->setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    $app->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+    $app->response->setStatusCode(200, "OK")->send();
+});
+
+// $this->response->setHeader('Access-Control-Allow-Origin', '*');
+// $this->response->setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+// $this->response->setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+
 
 // Retrieves all patients
 $app->get(
@@ -55,6 +67,7 @@ $app->get(
                 'religion' => $patient->religion,
                 'phone' => $patient->phone,
                 'address' => $patient->address,
+                'nik' => $patient->nik,
             ];
         };
 
@@ -148,14 +161,13 @@ $app->post(
         );
 
         $response = new Phalcon\Http\Response();
-
+       
         if ($result->success() === true) {
             $status = array("code" => 201, "response" => "success", "message" => "Patient was created successfully");
             $response->setStatusCode(201, "Created");
 
             $patient = $result->getModel();
             $response->setJsonContent(array("status" => $status, "result" => $patient));
-
         } else {
             $response->setStatusCode(409, "Conflict");
             $errors = [];
@@ -246,7 +258,6 @@ $app->delete(
         }
 
         return $response;
-         
     }
 );
 
